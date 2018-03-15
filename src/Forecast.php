@@ -6,16 +6,6 @@ use GuzzleHttp\Client;
 
 class Forecast
 {
-    public function predict(string $cityName, \DateTime $datetime = null, bool $wind = false): string
-    {
-        // If we have to return the wind information
-        if ($wind) {
-            return $this->predictWind($cityName, $datetime);
-        } else {
-            return $this->predictWeather($cityName, $datetime);
-        }
-    }
-
     public function predictWeather(string $cityName, \DateTime $datetime = null)
     {
         $thePrediction = $this->predictionsByNameOnDate($cityName, $datetime);
