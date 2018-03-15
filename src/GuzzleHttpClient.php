@@ -4,7 +4,7 @@ namespace Codium\CleanCode;
 
 use GuzzleHttp\Client;
 
-class GuzzleHttpClient
+class GuzzleHttpClient implements HttpClient
 {
     /** @var Client */
     private $client;
