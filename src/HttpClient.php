@@ -6,9 +6,16 @@ use GuzzleHttp\Client;
 
 class HttpClient
 {
-    public function get(string $url)
+    /** @var Client */
+    private $client;
+
+    public function __construct()
     {
-        $client = new Client();
-        return $client->get($url)->getBody()->getContents();
+        $this->client = new Client();
+    }
+
+    public function get(string $url): string
+    {
+        return $this->client->get($url)->getBody()->getContents();
     }
 }
