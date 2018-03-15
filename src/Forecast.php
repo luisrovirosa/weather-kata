@@ -20,7 +20,6 @@ class Forecast
 
     private function predictionsByNameOnDate(string $cityName, \DateTime $datetime = null): array
     {
-        // When date is not provided we look for the current prediction
         if (!$datetime) {
             $datetime = new \DateTime();
         }
