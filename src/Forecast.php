@@ -20,15 +20,13 @@ class Forecast
         // Find the id of the city on metawheather
         $cityIdUrl = "https://www.metaweather.com/api/location/search/?query=$city";
         // Create a Guzzle Http Client
-        $client = new Client();
-        $response = $client->get($cityIdUrl)->getBody()->getContents();
+        $response = $this->makeGetRequest($cityIdUrl);
         $woeid = json_decode($response, true)[0]['woeid'];
         $city = $woeid;
 
         // Find the predictions for the city
         $weatherUrl = "https://www.metaweather.com/api/location/$woeid";
-        $client = new Client();
-        $response = $client->get($weatherUrl)->getBody()->getContents();
+        $response = $this->makeGetRequest($weatherUrl);
         $results = json_decode($response, true)['consolidated_weather'];
         foreach ($results as $result) {
 
@@ -47,5 +45,11 @@ class Forecast
     protected function hasPredictionAvailableFor(\DateTime $datetime = null): bool
     {
         return $datetime < new \DateTime("+6 days 00:00:00");
+    }
+
+    protected function makeGetRequest(string $url): string
+    {
+        $client = new Client();
+        return $client->get($url)->getBody()->getContents();
     }
 }
