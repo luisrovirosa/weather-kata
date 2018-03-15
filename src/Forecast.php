@@ -8,15 +8,16 @@ class Forecast
 {
     public function predict(string &$city, \DateTime $datetime = null, bool $wind = false): string
     {
+        // If there are predictions
+        if ($datetime >= new \DateTime("+6 days 00:00:00")) {
+            return "";
+        }
+
         // When date is not provided we look for the current prediction
         if (!$datetime) {
             $datetime = new \DateTime();
         }
 
-        // If there are predictions
-        if ($datetime >= new \DateTime("+6 days 00:00:00")) {
-            return "";
-        }
 
         // Create a Guzzle Http Client
         $client = new Client();
