@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 
 class Forecast
 {
-    public function predict(string &$city, \DateTime $datetime = null, bool $wind = false): string
+    public function predict(string $city, \DateTime $datetime = null, bool $wind = false): string
     {
         if (!$this->hasPredictionAvailableFor($datetime)) {
             return "";
@@ -17,8 +17,6 @@ class Forecast
             $datetime = new \DateTime();
         }
         $woeid = $this->findCityId($city);
-
-        $city = $woeid;
 
         // Find the predictions for the city
         $weatherUrl = "https://www.metaweather.com/api/location/$woeid";
@@ -49,7 +47,7 @@ class Forecast
         return $client->get($url)->getBody()->getContents();
     }
 
-    protected function findCityId(string &$city): string
+    public function findCityId(string $city): string
     {
         $cityIdUrl = "https://www.metaweather.com/api/location/search/?query=$city";
         $response = $this->makeGetRequest($cityIdUrl);

@@ -48,11 +48,10 @@ class WeatherTest extends TestCase
     public function change_the_city_to_woeid()
     {
         $forecast = new Forecast();
-        $city = "Madrid";
 
-        $forecast->predict($city, null, true);
+        $cityId = $forecast->findCityId("Madrid");
 
-        $this->assertEquals("766273", $city);
+        $this->assertEquals("766273", $cityId);
     }
 
     /** @test */
