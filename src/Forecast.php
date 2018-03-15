@@ -8,10 +8,6 @@ class Forecast
 {
     public function predict(string $cityName, \DateTime $datetime = null, bool $wind = false): string
     {
-        if (!$this->hasPredictionAvailableFor($datetime)) {
-            return "";
-        }
-
         $thePrediction = $this->predictionsByNameOnDate($cityName, $datetime);
 
         // If we have to return the wind information
@@ -20,11 +16,6 @@ class Forecast
         } else {
             return $thePrediction['weather_state_name'];
         }
-    }
-
-    private function hasPredictionAvailableFor(\DateTime $datetime = null): bool
-    {
-        return $datetime < new \DateTime("+6 days 00:00:00");
     }
 
     protected function predictionsByNameOnDate(string $cityName, \DateTime $datetime = null): array
@@ -65,7 +56,10 @@ class Forecast
                 return $prediction;
             }
         }
-        return [];
+        return [
+            'weather_state_name' => '',
+            'wind_speed'         => '',
+        ];
     }
 
     private function makeGetRequest(string $url): string
