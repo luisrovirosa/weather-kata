@@ -4,7 +4,6 @@ namespace Tests\Codium\CleanCode;
 
 use Codium\CleanCode\Forecast;
 use Codium\CleanCode\MetaWeatherForecast;
-use Codium\CleanCode\GuzzleHttpClient;
 use PHPUnit\Framework\TestCase;
 
 class WeatherTest extends TestCase
@@ -70,6 +69,7 @@ class WeatherTest extends TestCase
 
     private function newForecast(): Forecast
     {
-        return new MetaWeatherForecast(new GuzzleHttpClient());
+        $httpClient = CachedGuzzleHttpClient::getInstance();
+        return new MetaWeatherForecast($httpClient);
     }
 }
