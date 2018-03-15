@@ -17,7 +17,6 @@ class Forecast
             $datetime = new \DateTime();
         }
 
-
         // Find the id of the city on metawheather
         $cityIdUrl = "https://www.metaweather.com/api/location/search/?query=$city";
         // Create a Guzzle Http Client
@@ -27,8 +26,10 @@ class Forecast
         $city = $woeid;
 
         // Find the predictions for the city
-        $results = json_decode($client->get("https://www.metaweather.com/api/location/$woeid")->getBody()->getContents(),
-            true)['consolidated_weather'];
+        $weatherUrl = "https://www.metaweather.com/api/location/$woeid";
+        $client = new Client();
+        $response = $client->get($weatherUrl)->getBody()->getContents();
+        $results = json_decode($response, true)['consolidated_weather'];
         foreach ($results as $result) {
 
             // When the date is the expected
