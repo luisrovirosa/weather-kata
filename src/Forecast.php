@@ -17,11 +17,11 @@ class Forecast
             $datetime = new \DateTime();
         }
 
-        // Create a Guzzle Http Client
-        $client = new Client();
 
         // Find the id of the city on metawheather
         $cityIdUrl = "https://www.metaweather.com/api/location/search/?query=$city";
+        // Create a Guzzle Http Client
+        $client = new Client();
         $response = $client->get($cityIdUrl)->getBody()->getContents();
         $woeid = json_decode($response, true)[0]['woeid'];
         $city = $woeid;
