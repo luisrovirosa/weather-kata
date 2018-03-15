@@ -16,13 +16,13 @@ class Forecast
         }
     }
 
-    private function predictWeather(string $cityName, \DateTime $datetime = null)
+    public function predictWeather(string $cityName, \DateTime $datetime = null)
     {
         $thePrediction = $this->predictionsByNameOnDate($cityName, $datetime);
         return $thePrediction['weather_state_name'];
     }
 
-    private function predictWind(string $cityName, \DateTime $datetime = null)
+    public function predictWind(string $cityName, \DateTime $datetime = null)
     {
         $thePrediction = $this->predictionsByNameOnDate($cityName, $datetime);
         return $thePrediction['wind_speed'];
