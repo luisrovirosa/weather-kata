@@ -12,12 +12,8 @@ class Forecast
             return "";
         }
 
-        // When date is not provided we look for the current prediction
-        if (!$datetime) {
-            $datetime = new \DateTime();
-        }
-        $predictions = $this->predictionsByCityName($cityName);
-        $thePrediction = $this->findPrediction($predictions, $datetime);
+        $thePrediction = $this->predictionsByNameOnDate($cityName, $datetime);
+
         // If we have to return the wind information
         if ($wind) {
             return $thePrediction['wind_speed'];
@@ -29,6 +25,17 @@ class Forecast
     private function hasPredictionAvailableFor(\DateTime $datetime = null): bool
     {
         return $datetime < new \DateTime("+6 days 00:00:00");
+    }
+
+    protected function predictionsByNameOnDate(string $cityName, \DateTime $datetime = null): array
+    {
+        // When date is not provided we look for the current prediction
+        if (!$datetime) {
+            $datetime = new \DateTime();
+        }
+        $predictions = $this->predictionsByCityName($cityName);
+        $thePrediction = $this->findPrediction($predictions, $datetime);
+        return $thePrediction;
     }
 
     private function predictionsByCityName(string $city): array
