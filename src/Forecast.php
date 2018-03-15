@@ -9,7 +9,7 @@ class Forecast
     public function predict(string &$city, \DateTime $datetime = null, bool $wind = false): string
     {
         // If there are predictions
-        if ($datetime >= new \DateTime("+6 days 00:00:00")) {
+        if (!($datetime < new \DateTime("+6 days 00:00:00"))) {
             return "";
         }
 
