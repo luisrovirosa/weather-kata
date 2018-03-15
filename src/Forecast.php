@@ -19,15 +19,7 @@ class Forecast
         $cityId = $this->findCityId($city);
 
         $predictions = $this->predictionsFor($cityId);
-        $thePrediction = null;
-        foreach ($predictions as $prediction) {
-
-            // When the date is the expected
-            if ($prediction["applicable_date"] == $datetime->format('Y-m-d')) {
-                $thePrediction = $prediction;
-                break;
-            }
-        }
+        $thePrediction = $this->findPrediction($predictions, $datetime);
         // If we have to return the wind information
         if ($wind) {
             return $thePrediction['wind_speed'];
@@ -59,5 +51,15 @@ class Forecast
         $weatherUrl = "https://www.metaweather.com/api/location/$cityId";
         $response = $this->makeGetRequest($weatherUrl);
         return json_decode($response, true)['consolidated_weather'];
+    }
+
+    protected function findPrediction(array $predictions, \DateTime $datetime): array
+    {
+        foreach ($predictions as $prediction) {
+            if ($prediction["applicable_date"] == $datetime->format('Y-m-d')) {
+                return $prediction;
+            }
+        }
+        return [];
     }
 }
