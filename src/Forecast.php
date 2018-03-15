@@ -22,7 +22,8 @@ class Forecast
 
         // Find the id of the city on metawheather
         $cityIdUrl = "https://www.metaweather.com/api/location/search/?query=$city";
-        $woeid = json_decode($client->get($cityIdUrl)->getBody()->getContents(), true)[0]['woeid'];
+        $response = $client->get($cityIdUrl)->getBody()->getContents();
+        $woeid = json_decode($response, true)[0]['woeid'];
         $city = $woeid;
 
         // Find the predictions for the city
