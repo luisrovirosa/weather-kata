@@ -61,7 +61,7 @@ class Forecast
 
     private function makeGetRequest(string $url): string
     {
-        $httpClient = new HttpClient();
+        $httpClient = new GuzzleHttpClient();
         return $httpClient->get($url);
     }
 }
