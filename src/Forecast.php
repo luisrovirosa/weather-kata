@@ -18,7 +18,7 @@ class Forecast
         }
         $cityId = $this->findCityId($city);
 
-        $predictions = $this->predictionsFor($cityId);
+        $predictions = $this->predictionsByCityId($cityId);
         $thePrediction = $this->findPrediction($predictions, $datetime);
         // If we have to return the wind information
         if ($wind) {
@@ -46,7 +46,7 @@ class Forecast
         return json_decode($response, true)[0]['woeid'];
     }
 
-    protected function predictionsFor(string $cityId): array
+    protected function predictionsByCityId(string $cityId): array
     {
         $weatherUrl = "https://www.metaweather.com/api/location/$cityId";
         $response = $this->makeGetRequest($weatherUrl);
