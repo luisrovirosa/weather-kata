@@ -10,15 +10,20 @@ class Forecast
     {
         // If we have to return the wind information
         if ($wind) {
-            $thePrediction = $this->predictionsByNameOnDate($cityName, $datetime);
-            return $thePrediction['wind_speed'];
+            return $this->predictWind($cityName, $datetime);
         } else {
             $thePrediction = $this->predictionsByNameOnDate($cityName, $datetime);
             return $thePrediction['weather_state_name'];
         }
     }
 
-    protected function predictionsByNameOnDate(string $cityName, \DateTime $datetime = null): array
+    private function predictWind(string $cityName, \DateTime $datetime = null)
+    {
+        $thePrediction = $this->predictionsByNameOnDate($cityName, $datetime);
+        return $thePrediction['wind_speed'];
+    }
+
+    private function predictionsByNameOnDate(string $cityName, \DateTime $datetime = null): array
     {
         // When date is not provided we look for the current prediction
         if (!$datetime) {
