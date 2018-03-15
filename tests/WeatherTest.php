@@ -14,7 +14,7 @@ class WeatherTest extends TestCase
         $forecast = new Forecast();
         $city = "Madrid";
 
-        $prediction = $forecast->predict($city);
+        $prediction = $forecast->predictWeather($city);
 
         echo "Today: $prediction\n";
         $this->assertTrue(true, 'I don\'t know how to test it');
@@ -26,7 +26,7 @@ class WeatherTest extends TestCase
         $forecast = new Forecast();
         $city = "Madrid";
 
-        $prediction = $forecast->predict($city, new \DateTime('+2 days'));
+        $prediction = $forecast->predictWeather($city, new \DateTime('+2 days'));
 
         echo "Day after tomorrow: $prediction\n";
         $this->assertTrue(true, 'I don\'t know how to test it');
@@ -38,7 +38,7 @@ class WeatherTest extends TestCase
         $forecast = new Forecast();
         $city = "Madrid";
 
-        $prediction = $forecast->predict($city, null, true);
+        $prediction = $forecast->predictWind($city, null);
 
         echo "Wind: $prediction\n";
         $this->assertTrue(true, 'I don\'t know how to test it');
@@ -60,7 +60,7 @@ class WeatherTest extends TestCase
         $forecast = new Forecast();
         $city = "Madrid";
 
-        $prediction = $forecast->predict($city, new \DateTime('+6 days'));
+        $prediction = $forecast->predictWeather($city, new \DateTime('+6 days'));
 
         $this->assertEquals("", $prediction);
     }
