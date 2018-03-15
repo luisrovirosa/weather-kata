@@ -2,8 +2,6 @@
 
 namespace Codium\CleanCode;
 
-use GuzzleHttp\Client;
-
 class Forecast
 {
     public function predictWeather(string $cityName, \DateTime $datetime = null)
@@ -63,7 +61,7 @@ class Forecast
 
     private function makeGetRequest(string $url): string
     {
-        $client = new Client();
-        return $client->get($url)->getBody()->getContents();
+        $httpClient = new HttpClient();
+        return $httpClient->get($url);
     }
 }
