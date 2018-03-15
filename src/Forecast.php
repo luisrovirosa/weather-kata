@@ -16,12 +16,8 @@ class Forecast
         if (!$datetime) {
             $datetime = new \DateTime();
         }
+        $woeid = $this->findCityId($city);
 
-        // Find the id of the city on metawheather
-        $cityIdUrl = "https://www.metaweather.com/api/location/search/?query=$city";
-        // Create a Guzzle Http Client
-        $response = $this->makeGetRequest($cityIdUrl);
-        $woeid = json_decode($response, true)[0]['woeid'];
         $city = $woeid;
 
         // Find the predictions for the city
@@ -51,5 +47,12 @@ class Forecast
     {
         $client = new Client();
         return $client->get($url)->getBody()->getContents();
+    }
+
+    protected function findCityId(string &$city): string
+    {
+        $cityIdUrl = "https://www.metaweather.com/api/location/search/?query=$city";
+        $response = $this->makeGetRequest($cityIdUrl);
+        return json_decode($response, true)[0]['woeid'];
     }
 }
