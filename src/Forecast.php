@@ -8,12 +8,12 @@ class Forecast
 {
     public function predict(string $cityName, \DateTime $datetime = null, bool $wind = false): string
     {
-        $thePrediction = $this->predictionsByNameOnDate($cityName, $datetime);
-
         // If we have to return the wind information
         if ($wind) {
+            $thePrediction = $this->predictionsByNameOnDate($cityName, $datetime);
             return $thePrediction['wind_speed'];
         } else {
+            $thePrediction = $this->predictionsByNameOnDate($cityName, $datetime);
             return $thePrediction['weather_state_name'];
         }
     }
