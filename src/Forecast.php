@@ -14,34 +14,32 @@ class Forecast
         }
 
         // If there are predictions
-        if ($datetime < new \DateTime("+6 days 00:00:00")) {
+        if ($datetime >= new \DateTime("+6 days 00:00:00")) {
+            return "";
+        }
 
+        // Create a Guzzle Http Client
+        $client = new Client();
 
-            // Create a Guzzle Http Client
-            $client = new Client();
+        // Find the id of the city on metawheather
+        $woeid = json_decode($client->get("https://www.metaweather.com/api/location/search/?query=$city")->getBody()->getContents(),
+            true)[0]['woeid'];
+        $city = $woeid;
 
-            // Find the id of the city on metawheather
-            $woeid = json_decode($client->get("https://www.metaweather.com/api/location/search/?query=$city")->getBody()->getContents(),
-                true)[0]['woeid'];
-            $city = $woeid;
+        // Find the predictions for the city
+        $results = json_decode($client->get("https://www.metaweather.com/api/location/$woeid")->getBody()->getContents(),
+            true)['consolidated_weather'];
+        foreach ($results as $result) {
 
-            // Find the predictions for the city
-            $results = json_decode($client->get("https://www.metaweather.com/api/location/$woeid")->getBody()->getContents(),
-                true)['consolidated_weather'];
-            foreach ($results as $result) {
-
-                // When the date is the expected
-                if ($result["applicable_date"] == $datetime->format('Y-m-d')) {
-                    // If we have to return the wind information
-                    if ($wind) {
-                        return $result['wind_speed'];
-                    } else {
-                        return $result['weather_state_name'];
-                    }
+            // When the date is the expected
+            if ($result["applicable_date"] == $datetime->format('Y-m-d')) {
+                // If we have to return the wind information
+                if ($wind) {
+                    return $result['wind_speed'];
+                } else {
+                    return $result['weather_state_name'];
                 }
             }
-        } else {
-            return "";
         }
     }
 }
