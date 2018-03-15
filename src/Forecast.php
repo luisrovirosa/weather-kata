@@ -18,10 +18,7 @@ class Forecast
         }
         $woeid = $this->findCityId($city);
 
-        // Find the predictions for the city
-        $weatherUrl = "https://www.metaweather.com/api/location/$woeid";
-        $response = $this->makeGetRequest($weatherUrl);
-        $results = json_decode($response, true)['consolidated_weather'];
+        $results = $this->predictionsFor($woeid);
         foreach ($results as $result) {
 
             // When the date is the expected
@@ -52,5 +49,12 @@ class Forecast
         $cityIdUrl = "https://www.metaweather.com/api/location/search/?query=$city";
         $response = $this->makeGetRequest($cityIdUrl);
         return json_decode($response, true)[0]['woeid'];
+    }
+
+    protected function predictionsFor(string $cityId): array
+    {
+        $weatherUrl = "https://www.metaweather.com/api/location/$cityId";
+        $response = $this->makeGetRequest($weatherUrl);
+        return json_decode($response, true)['consolidated_weather'];
     }
 }
