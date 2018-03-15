@@ -3,6 +3,7 @@
 namespace Tests\Codium\CleanCode;
 
 use Codium\CleanCode\Forecast;
+use Codium\CleanCode\GuzzleHttpClient;
 use PHPUnit\Framework\TestCase;
 
 class WeatherTest extends TestCase
@@ -11,7 +12,7 @@ class WeatherTest extends TestCase
     /** @test */
     public function find_the_weather_of_today()
     {
-        $forecast = new Forecast();
+        $forecast = new Forecast(new GuzzleHttpClient());
         $city = "Madrid";
 
         $prediction = $forecast->predictWeather($city);
@@ -23,7 +24,7 @@ class WeatherTest extends TestCase
     /** @test */
     public function find_the_weather_of_any_day()
     {
-        $forecast = new Forecast();
+        $forecast = new Forecast(new GuzzleHttpClient());
         $city = "Madrid";
 
         $prediction = $forecast->predictWeather($city, new \DateTime('+2 days'));
@@ -35,7 +36,7 @@ class WeatherTest extends TestCase
     /** @test */
     public function find_the_wind_of_any_day()
     {
-        $forecast = new Forecast();
+        $forecast = new Forecast(new GuzzleHttpClient());
         $city = "Madrid";
 
         $prediction = $forecast->predictWind($city, null);
@@ -47,7 +48,7 @@ class WeatherTest extends TestCase
     /** @test */
     public function change_the_city_to_woeid()
     {
-        $forecast = new Forecast();
+        $forecast = new Forecast(new GuzzleHttpClient());
 
         $cityId = $forecast->findCityId("Madrid");
 
@@ -57,7 +58,7 @@ class WeatherTest extends TestCase
     /** @test */
     public function there_is_no_prediction_for_more_than_5_days()
     {
-        $forecast = new Forecast();
+        $forecast = new Forecast(new GuzzleHttpClient());
         $city = "Madrid";
 
         $prediction = $forecast->predictWeather($city, new \DateTime('+6 days'));

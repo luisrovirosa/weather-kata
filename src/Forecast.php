@@ -7,9 +7,9 @@ class Forecast
     /** @var HttpClient */
     private $httpClient;
 
-    public function __construct()
+    public function __construct(HttpClient $httpClient)
     {
-        $this->httpClient = new GuzzleHttpClient();
+        $this->httpClient = $httpClient;
     }
 
     public function predictWeather(string $cityName, \DateTime $datetime = null)
