@@ -16,9 +16,7 @@ class Forecast
         if (!$datetime) {
             $datetime = new \DateTime();
         }
-        $cityId = $this->findCityId($city);
-
-        $predictions = $this->predictionsByCityId($cityId);
+        $predictions = $this->predictionsByCityName($city);
         $thePrediction = $this->findPrediction($predictions, $datetime);
         // If we have to return the wind information
         if ($wind) {
@@ -31,6 +29,12 @@ class Forecast
     private function hasPredictionAvailableFor(\DateTime $datetime = null): bool
     {
         return $datetime < new \DateTime("+6 days 00:00:00");
+    }
+
+    private function predictionsByCityName(string $city): array
+    {
+        $cityId = $this->findCityId($city);
+        return $this->predictionsByCityId($cityId);
     }
 
     public function findCityId(string $city): string
