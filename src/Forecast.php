@@ -16,9 +16,9 @@ class Forecast
         if (!$datetime) {
             $datetime = new \DateTime();
         }
-        $woeid = $this->findCityId($city);
+        $cityId = $this->findCityId($city);
 
-        $results = $this->predictionsFor($woeid);
+        $results = $this->predictionsFor($cityId);
         foreach ($results as $result) {
 
             // When the date is the expected
