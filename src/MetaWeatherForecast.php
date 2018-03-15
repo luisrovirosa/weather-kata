@@ -2,7 +2,7 @@
 
 namespace Codium\CleanCode;
 
-class MetaWeatherForecast
+class MetaWeatherForecast implements Forecast
 {
     /** @var HttpClient */
     private $httpClient;
