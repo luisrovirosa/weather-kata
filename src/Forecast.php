@@ -28,15 +28,9 @@ class Forecast
         }
     }
 
-    protected function hasPredictionAvailableFor(\DateTime $datetime = null): bool
+    private function hasPredictionAvailableFor(\DateTime $datetime = null): bool
     {
         return $datetime < new \DateTime("+6 days 00:00:00");
-    }
-
-    protected function makeGetRequest(string $url): string
-    {
-        $client = new Client();
-        return $client->get($url)->getBody()->getContents();
     }
 
     public function findCityId(string $city): string
@@ -46,14 +40,14 @@ class Forecast
         return json_decode($response, true)[0]['woeid'];
     }
 
-    protected function predictionsByCityId(string $cityId): array
+    private function predictionsByCityId(string $cityId): array
     {
         $weatherUrl = "https://www.metaweather.com/api/location/$cityId";
         $response = $this->makeGetRequest($weatherUrl);
         return json_decode($response, true)['consolidated_weather'];
     }
 
-    protected function findPrediction(array $predictions, \DateTime $datetime): array
+    private function findPrediction(array $predictions, \DateTime $datetime): array
     {
         foreach ($predictions as $prediction) {
             if ($prediction["applicable_date"] == $datetime->format('Y-m-d')) {
@@ -61,5 +55,11 @@ class Forecast
             }
         }
         return [];
+    }
+
+    private function makeGetRequest(string $url): string
+    {
+        $client = new Client();
+        return $client->get($url)->getBody()->getContents();
     }
 }
