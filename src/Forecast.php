@@ -18,16 +18,16 @@ class Forecast
         }
         $cityId = $this->findCityId($city);
 
-        $results = $this->predictionsFor($cityId);
-        foreach ($results as $result) {
+        $predictions = $this->predictionsFor($cityId);
+        foreach ($predictions as $prediction) {
 
             // When the date is the expected
-            if ($result["applicable_date"] == $datetime->format('Y-m-d')) {
+            if ($prediction["applicable_date"] == $datetime->format('Y-m-d')) {
                 // If we have to return the wind information
                 if ($wind) {
-                    return $result['wind_speed'];
+                    return $prediction['wind_speed'];
                 } else {
-                    return $result['weather_state_name'];
+                    return $prediction['weather_state_name'];
                 }
             }
         }
